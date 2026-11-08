@@ -1,7 +1,7 @@
 {
   "id": "neodex.neome",
   "name": "NeoMe",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "author": "NDesumeur",
   "description": "Ton compagnon : il vit sur l'accueil et se promène dans la barre des tâches. Câlins au clic, chatouilles au double-clic, menu au clic droit pour le nourrir, jouer à la balle (combo et record), le coucher ou le renommer. Ventre, joie et énergie baissent avec le temps ; il dort la nuit, danse sur ta musique et monte de niveau à chaque attention.",
   "icon": "icon.png",
