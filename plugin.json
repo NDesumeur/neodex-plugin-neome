@@ -10,6 +10,7 @@
   "neobase": ">=4.0.0",
   "type": "app",
   "category": "Compagnon",
+  "compatibility": ["windows", "linux"],
   "syncMode": "progression",
   "syncInfo": "Niveau, humeur, objets ; le plus avancé gagne.",
   "mobile": false,
