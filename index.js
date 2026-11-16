@@ -1,7 +1,7 @@
 // NeoMe : ton compagnon d'origine (code inchangé), livré en plugin avec ses 25 images et son style.
 // Son état (nom, niveau, humeur…) est dans le dossier du plugin, que NeoDex sauvegarde (synchro cloud comprise) ; à la première ouverture il reprend ton NeoMe d'avant.
 // Il demande l'accès complet pour vivre dans la page de NeoDex. NeoDex ne le charge que s'il est signé.
-const HTML = "<div class=\"appWrap\"><div class=\"agHead\"><span class=\"label\">NeoMe</span></div><div class=\"hint\">NeoMe vit sur l'accueil de NeoDex et se balade dans la barre des tâches : clique-le, chatouille-le, nourris-le et joue à la balle avec lui (clic droit).</div><div class=\"row\"><button class=\"btn main px\" id=\"nmToggle\">MONTRER / CACHER NEOME</button></div></div>";
+const HTML = "<div class=\"appWrap wide\"><div class=\"agHead\"><span class=\"label\">NeoMe</span></div><div class=\"hint\">NeoMe vit sur l'accueil de NeoDex et se balade dans la barre des tâches : clique-le, chatouille-le, nourris-le et joue à la balle avec lui (clic droit).</div><div class=\"row\"><button class=\"btn main px\" id=\"nmToggle\">MONTRER / CACHER NEOME</button></div></div>";
 const PET_CSS = `/* NeoMe, the pet of the home page (pet.js): its pictures, and its motions */
 #pet{position:fixed;left:20px;bottom:-16px;z-index:40;user-select:none}
 #pet img{display:block;width:181px;height:auto;cursor:var(--cp,pointer);touch-action:none;filter:drop-shadow(0 6px 6px rgba(0,0,0,.45));transform-origin:50% 85%}
@@ -43,17 +43,17 @@ body.browsing #pet,body.browsing .petBall,body.browsing .petBallShadow,body.brow
 .hpRainbow{animation:hpHue 4s linear infinite} @keyframes hpHue{to{filter:hue-rotate(360deg)}}
 @keyframes nmRainbow{0%{filter:drop-shadow(0 0 9px #ff4fa8) drop-shadow(0 6px 6px rgba(0,0,0,.45))}33%{filter:drop-shadow(0 0 9px #5ec8ff) drop-shadow(0 6px 6px rgba(0,0,0,.45))}66%{filter:drop-shadow(0 0 9px #ffd84a) drop-shadow(0 6px 6px rgba(0,0,0,.45))}}
 #pet.aura-rainbow>img,.nmApp .aura-rainbow>img:first-child{animation:nmRainbow 3s infinite!important}
-.nmApp .nmXp{height:12px;min-width:220px;background:rgba(0,0,0,.35);box-shadow:inset 0 0 0 2px var(--line2);margin:6px 0}.nmApp .nmXp i{display:block;height:100%;background:var(--pink)}
+.nmApp .nmXpTxt,.nmApp .nmCard .hint{font-size:clamp(14px,.95vw,17px)}.nmApp .nmXp{height:clamp(12px,.9vw,16px);min-width:220px;background:rgba(0,0,0,.35);box-shadow:inset 0 0 0 2px var(--line2);margin:6px 0}.nmApp .nmXp i{display:block;height:100%;background:var(--pink)}
 .nmApp .nmDress{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;margin-top:14px}
 .nmApp .nmStage{position:sticky;top:10px;display:flex;flex-direction:column;align-items:center;gap:12px;padding:20px 20px 14px;background:radial-gradient(circle at 50% 58%,rgba(var(--pkr),.22),transparent 68%),rgba(0,0,0,.25);box-shadow:inset 0 0 0 2px var(--line2)}
-.nmApp .nmDoll,.nmApp .nmMini{position:relative;line-height:0}.nmApp .nmDoll{width:256px}.nmApp .nmMini{width:76px}
+.nmApp .nmDoll,.nmApp .nmMini{position:relative;line-height:0}.nmApp .nmDoll{width:clamp(200px,min(24vw,46vh),420px)}.nmApp [hidden]{display:none!important}.nmApp .nmMini{width:clamp(76px,5.6vw,110px)}
 .nmApp .nmDoll>img:first-child,.nmApp .nmMini>img:first-child{width:100%;height:auto;filter:drop-shadow(0 6px 6px rgba(0,0,0,.45))}
 .nmApp .nmSide{flex:1;min-width:280px}.nmApp .nmTabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-.nmApp .nmTab{all:unset;cursor:var(--cp,pointer);padding:5px 10px;font:13px var(--text);color:var(--muted);box-shadow:inset 0 0 0 2px var(--line2)}.nmApp .nmTab.on,.nmApp .nmTab:hover{color:#fff;box-shadow:inset 0 0 0 2px var(--pink)}
-.nmApp .nmWard{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:8px}
-.nmApp .nmItem{all:unset;cursor:var(--cp,pointer);display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 2px var(--line2);font:13px var(--text);color:var(--shell);text-align:center}
+.nmApp .nmTab{all:unset;cursor:var(--cp,pointer);padding:6px 12px;font:clamp(13px,.9vw,16px) var(--text);color:var(--muted);box-shadow:inset 0 0 0 2px var(--line2)}.nmApp .nmTab.on,.nmApp .nmTab:hover{color:#fff;box-shadow:inset 0 0 0 2px var(--pink)}
+.nmApp .nmWard{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(108px,8vw,150px),1fr));gap:clamp(8px,.7vw,12px)}
+.nmApp .nmItem{all:unset;cursor:var(--cp,pointer);display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 2px var(--line2);font:clamp(13px,.9vw,15px) var(--text);color:var(--shell);text-align:center}
 .nmApp .nmItem:hover{background:rgba(var(--pkr),.12)}.nmApp .nmItem.on{box-shadow:inset 0 0 0 2px var(--pink);color:#fff}
-.nmApp .nmItem.locked{cursor:default}.nmApp .nmItem.locked .nmMini{opacity:.4;filter:grayscale(.7)}.nmApp .nmItem small{color:var(--muted)}.nmApp h3{font:10px var(--title);color:var(--lilac);margin:0 0 10px}`;
+.nmApp .nmItem.locked{cursor:default}.nmApp .nmItem.locked .nmMini{opacity:.4;filter:grayscale(.7)}.nmApp .nmItem small{color:var(--muted)}.nmApp h3{font:clamp(11px,.8vw,14px) var(--title);color:var(--lilac);margin:0 0 10px}`;
 export default async function (ctx) {
   const view = ctx.view;
   if (!ctx.host) { view.textContent = "Ce plugin doit être approuvé par NeoDex pour s'ouvrir."; return; }
@@ -523,13 +523,14 @@ function nmView() {
   const box = el('div'); box.id = 'nmMain';
   box.innerHTML = `<div class="nmCard"><div><div class="label nmName"></div><div class="nmXp"><i></i></div><div class="hint nmXpTxt"></div>
     <div class="hint">Il gagne de l'XP quand tu t'occupes de lui : câlins, repas, balle, musique… </div></div></div>
-    <div class="nmDress" hidden><div class="nmStage"><div class="nmDoll"><img alt=""></div><button class="btn px nmOff">Tout retirer</button></div>
+    <div class="nmDress"><div class="nmStage"><div class="nmDoll"><img alt=""></div><button class="btn px nmOff">Tout retirer</button></div>
     <div class="nmSide"><h3>GARDE-ROBE</h3><div class="nmTabs"></div><div class="nmWard"></div></div></div>`;
-  box.querySelector('.nmDress').hidden = !COS.length;
+  box.querySelector('.nmSide').hidden = box.querySelector('.nmOff').hidden = !COS.length;  // sans cosmétique, le grand NeoMe reste, la garde-robe vide se cache
   box.querySelector('.nmOff').onclick = () => { pet.wear = {}; petSave(); cosWear(); nmRender(); };
   const wrap = view.querySelector('.appWrap'); wrap.classList.add('nmApp'); wrap.append(box);
   nmRender();
 }
+view.__nm = {view: () => view.querySelector('#nmMain')};  // pour l'auto-test
 if (window.neo && !W2) Promise.resolve().then(petStart).then(nmView).catch(e => console.error('pet:', e));
   // ---- fin ----
   view.querySelector('#nmToggle').onclick = () => petToggle();
