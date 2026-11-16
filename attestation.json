@@ -1,9 +1,9 @@
 {
   "pluginId": "neodex.neome",
   "repo": "NDesumeur/neodex-plugin-neome",
-  "version": "1.3.3",
-  "sha256": "2231f3a8eb30334ff35e9292323e75c702568e39ba226ac35bbdf445f353178a",
-  "approvedAt": "2026-11-08T14:45:27.787Z",
+  "version": "1.3.4",
+  "sha256": "ec504139f1928af82585da18eb54c031411f1f8c44c8ede97d1dbe1aa058ef13",
+  "approvedAt": "2026-11-16T04:14:38.074Z",
   "neobase": ">=4.0.0",
-  "signature": "9qbN/g9UhnT43N0o/poyw9JEkWF9rDIfn/BwtnAiUzU6MttLjahQS8A58vd5WTvP/1CGxFkw7g/ofmNl2GdSDA=="
+  "signature": "VhbJAizo5Q2N/bFNBB8brnyrfuhZJh2dUdcUeR0xE+bUC4Gpl0XNHALzDmhTCzWMDcEsO6dGfLNOHnwEzCd1CQ=="
 }
