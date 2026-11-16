@@ -37,7 +37,7 @@ Avec **Mettre dans la barre des tâches**, il se promène sur la barre de NeoDex
 
 Chaque câlin et chaque balle rattrapée rapportent 1 XP, des chatouilles 2 XP et un repas 3 XP. Chaque niveau demande un peu plus d'XP que le précédent ; son onglet montre son niveau, la barre d'XP vers le suivant, le nombre de câlins et de repas, son record à la balle et sa date de naissance.
 
-Ses 15 chapeaux se débloquent en montant de niveau (du niveau 2 au niveau 17) ; la garde-robe de son onglet les montre, cadenas compris, et les essaie au survol.
+Ses 17 auras se débloquent en montant de niveau (du niveau 2 au niveau 20) : des halos d'une couleur, d'autres qui passent d'une couleur à l'autre, qui respirent ou qui ont un double anneau. La garde-robe de son onglet les montre, cadenas compris, et les essaie au survol.
 
 ## Les jeux du jour
 

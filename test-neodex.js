@@ -1,4 +1,4 @@
-// lancé par le test « local » de NeoDex : le grand NeoMe suit l'écran, la garde-robe montre les 15 chapeaux et les auras,
+// lancé par le test « local » de NeoDex : le grand NeoMe suit l'écran, la garde-robe montre les 17 auras,
 // débloqués par le niveau de NeoMe, et rien ne déborde
 module.exports = async ({ js: pj0, sleep, shot = async () => {} }) => {
   let step = 'début'; const pj = async c => { try { return await pj0(c); } catch (e) { throw new Error(step + ' : ' + e.message); } };  // NeoMe vit dans la page de NeoDex (pas dans un cadre)
@@ -8,12 +8,12 @@ module.exports = async ({ js: pj0, sleep, shot = async () => {} }) => {
       locked: document.querySelectorAll('#nmMain .nmItem.locked').length, byLevel: [...document.querySelectorAll('#nmMain .nmItem small')].filter(s => /(niveau|level) \\d+/.test(s.textContent)).length,
       over: [...document.querySelectorAll('.nmApp *')].filter(e => e.getBoundingClientRect().right > innerWidth + 1).length }; })()`);
   if (!ok || r.doll < 190) throw new Error('grand NeoMe absent ou trop petit : ' + JSON.stringify(r));
-  if (r.items !== 19 || r.locked !== r.byLevel) throw new Error('garde-robe incomplète : ' + JSON.stringify(r));
+  if (r.items !== 17 || r.locked !== r.byLevel) throw new Error('garde-robe incomplète : ' + JSON.stringify(r));
   if (r.over) throw new Error(r.over + ' élément(s) débordent à droite');
-  // un chapeau sur le grand NeoMe au survol
-  await pj(`document.querySelector('#nmMain .nmItem').dispatchEvent(new PointerEvent('pointerenter'))`); await sleep(300);
-  const hat = await pj(`document.querySelectorAll('#nmMain .nmDoll .cosL').length`);
-  if (hat !== 1) throw new Error('le chapeau survolé ne va pas sur le grand NeoMe');
+  // une aura sur le grand NeoMe au survol ; celles qui changent de couleur bougent
+  await pj(`[...document.querySelectorAll('#nmMain .nmItem')].at(-1).dispatchEvent(new PointerEvent('pointerenter'))`); await sleep(300);
+  const au = await pj(`(() => { const i = document.querySelector('#nmMain .nmDoll img'); return { f: i.style.filter, anim: i.getAnimations().filter(a => a.id === 'aura').length }; })()`);
+  if (!/drop-shadow/.test(au.f) || au.anim !== 1) throw new Error('l’aura survolée ne va pas sur le grand NeoMe : ' + JSON.stringify(au));
   // Pas d'ombre : chaque niveau a une solution ; le niveau du jour se joue avec celle du solveur, puis le jeu est fait pour aujourd'hui
   const N = `[...document.querySelectorAll('*')].find(e => e.__nm).__nm`;
   step = 'niveaux'; const bad = await pj(`(() => { const m = ${N}, o = m.om; return m.levels().map((l, i) => { const {lv, st} = o.omParse(l.rows), s = o.omSolve(lv, st, 300000); return !s ? i + 1 + ' impossible' : s.length !== l.par ? i + 1 + ' par ' + s.length : ''; }).filter(Boolean); })()`);

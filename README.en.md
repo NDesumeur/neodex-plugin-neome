@@ -37,7 +37,7 @@ With **Put in the taskbar**, it walks along the NeoDex taskbar. Click it for a c
 
 Each cuddle and each saved ball is worth 1 XP, tickles 2 XP and a meal 3 XP. Each level needs a little more XP than the last; its tab shows its level, the XP bar to the next one, the number of cuddles and meals, its ball record and its birth date.
 
-His 15 hats unlock as he levels up (from level 2 to level 17); the wardrobe in his tab shows them, padlocks included, and tries them on when hovered.
+His 17 auras unlock as he levels up (from level 2 to level 20): single-colour halos, others that shift from one colour to another, breathe or have a double ring. The wardrobe in his tab shows them, padlocks included, and tries them on when hovered.
 
 ## Games of the day
 

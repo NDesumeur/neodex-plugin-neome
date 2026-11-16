@@ -41,8 +41,6 @@ body.browsing #pet,body.browsing .petBall,body.browsing .petBallShadow,body.brow
 .petCos .cosL,.nmDoll .cosL,.nmMini .cosL{position:absolute;left:0;top:0;width:100%;height:auto;pointer-events:none}
 #pet .petCos .cosL:not([data-hp]){filter:none}
 .hpRainbow{animation:hpHue 4s linear infinite} @keyframes hpHue{to{filter:hue-rotate(360deg)}}
-@keyframes nmRainbow{0%{filter:drop-shadow(0 0 9px #ff4fa8) drop-shadow(0 6px 6px rgba(0,0,0,.45))}33%{filter:drop-shadow(0 0 9px #5ec8ff) drop-shadow(0 6px 6px rgba(0,0,0,.45))}66%{filter:drop-shadow(0 0 9px #ffd84a) drop-shadow(0 6px 6px rgba(0,0,0,.45))}}
-#pet.aura-rainbow>img,.nmApp .aura-rainbow>img:first-child{animation:nmRainbow 3s infinite!important}
 .nmApp .nmXpTxt,.nmApp .nmCard .hint{font-size:clamp(14px,.95vw,17px)}.nmApp .nmXp{height:clamp(12px,.9vw,16px);min-width:220px;background:rgba(0,0,0,.35);box-shadow:inset 0 0 0 2px var(--line2);margin:6px 0}.nmApp .nmXp i{display:block;height:100%;background:var(--pink)}
 .nmApp .nmDress{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;margin-top:14px}
 .nmApp .nmStage{position:sticky;top:10px;display:flex;flex-direction:column;align-items:center;gap:12px;padding:20px 20px 14px;background:radial-gradient(circle at 50% 58%,rgba(var(--pkr),.22),transparent 68%),rgba(0,0,0,.25);box-shadow:inset 0 0 0 2px var(--line2)}
@@ -396,19 +394,34 @@ async function petStart() {
   addEventListener('beforeunload', () => { petAge(); __storeSet('pet', pet); });
 }
 const petToggle = () => { if (!pet) return; if (pet.inBar) return petToBar(false); pet.hidden = !pet.hidden; petSave(); petShow(); petBarSync(); toast(pet.hidden ? pet.name + ' se cache' : pet.name + ' est de retour !'); if (!pet.hidden) { petSay('Me revoilà !'); petAct('hello', 2000); } };
-/* ---------- the wardrobe: cosmetics drawn by the Studio's AI on NeoMe himself (img/cos), unlocked by level, worn on the home page ---------- */
-// each one is a 320 x 330 layer cut from « NeoMe wearing it », so it sits exactly on his picture; head things follow the head, shells and
+/* ---------- the wardrobe: cosmetics (img/cos), unlocked by level, worn on the home page ---------- */
+// each one is a 320 x 330 layer drawn over his picture 1, so it sits exactly on his head; head things follow the head, shells and
 // neck things the body (offsets per picture, in img/cos/items.json: offsets, body). A shell also gets, on the pictures whose shell rim is
 // drawn higher, a small patch that covers that rim (img/cos/coq). Coloured headphones: only the magenta of his own (img/hp, one per picture), recoloured.
-const COS_SLOTS = {tete: 'Chapeaux', aura: 'Auras'};
-const COS_ORDER = ['tete'];  // drawn from back to front
+const COS_SLOTS = {aura: 'Auras'};
+const COS_ORDER = [];  // drawn from back to front (layers from img/cos/items.json; none since the hats left)
 const COS_HEAD = new Set(['tete']);
+// the auras: a halo of one colour (glow), or of colours it goes through (a list, one round in ms); pulse: the halo breathes; two: a second, wider ring
 const COS_CODE = [
-  {id: 'aura_rose', slot: 'aura', name: 'Aura rose', lv: 6, glow: '#ff4fa8'}, {id: 'aura_glace', slot: 'aura', name: 'Aura glacée', lv: 10, glow: '#5ec8ff'},
-  {id: 'aura_or', slot: 'aura', name: 'Aura dorée', lv: 13, glow: '#ffd84a'}, {id: 'aura_arc', slot: 'aura', name: 'Aura arc-en-ciel', lv: 16, glow: 'rainbow'},
-];
-// the hats: drawn by the Studio's model on picture 1, then cut out; img/cos/items.json gives the level that unlocks each one
-// and, per picture, where his head is (offsets), so a hat sits right on all 25 faces
+  {id: 'aura_menthe', name: 'Aura menthe', lv: 2, glow: '#5cffb0'},
+  {id: 'aura_lilas', name: 'Aura lilas', lv: 3, glow: '#b98cff', pulse: 1},
+  {id: 'aura_braise', name: 'Aura braise', lv: 4, glow: ['#ff7a1a', '#ff2a1a'], pulse: 1, ms: 1400},
+  {id: 'aura_ocean', name: 'Aura océan', lv: 5, glow: ['#2f8bff', '#21d4fd'], ms: 4000},
+  {id: 'aura_rose', name: 'Aura rose', lv: 6, glow: '#ff4fa8'},
+  {id: 'aura_lucioles', name: 'Aura lucioles', lv: 7, glow: ['#d8ff5c', '#7dff6a'], pulse: 1, ms: 2200},
+  {id: 'aura_nuit', name: 'Aura de minuit', lv: 8, glow: '#3b2bff', two: '#8a2bff'},
+  {id: 'aura_fantome', name: 'Aura fantôme', lv: 9, glow: '#ffffff', pulse: 1, ms: 3200},
+  {id: 'aura_glace', name: 'Aura glacée', lv: 10, glow: '#5ec8ff', two: '#e6fbff'},
+  {id: 'aura_toxique', name: 'Aura toxique', lv: 11, glow: ['#9dff1a', '#2bff88'], pulse: 1, ms: 1800},
+  {id: 'aura_soleil', name: 'Aura coucher de soleil', lv: 12, glow: ['#ff4fa8', '#ff9a3c', '#ffd84a'], ms: 5000},
+  {id: 'aura_or', name: 'Aura dorée', lv: 13, glow: '#ffd84a', two: '#ff9a3c'},
+  {id: 'aura_sakura', name: 'Aura sakura', lv: 14, glow: ['#ffb7d5', '#ff6fae'], pulse: 1, ms: 2600},
+  {id: 'aura_orage', name: 'Aura d’orage', lv: 15, glow: ['#5ec8ff', '#5ec8ff', '#ffffff', '#5ec8ff'], ms: 900, two: '#2a4bff'},
+  {id: 'aura_arc', name: 'Aura arc-en-ciel', lv: 16, glow: ['#ff4fa8', '#5ec8ff', '#ffd84a'], ms: 3000},
+  {id: 'aura_galaxie', name: 'Aura galaxie', lv: 18, glow: ['#7b2bff', '#ff4fa8', '#21d4fd'], pulse: 1, ms: 4200, two: '#2a0f5c'},
+  {id: 'aura_neon', name: 'Aura double néon', lv: 20, glow: ['#ff2bd6', '#21d4fd'], ms: 2000, two: '#21d4fd'},
+].map(a => ({...a, slot: 'aura'}));
+// img/cos/items.json: layers drawn over his picture (none for now) and, per picture, where his head is (offsets)
 let COS = [], COS_OFF = {}, COS_BODY = {}, COQ = {};
 const cosUrl = {};
 const blobUrl = async p => URL.createObjectURL(new Blob([Uint8Array.from(atob(await neo.pluginFileRead(ctx.id, p)), ch => ch.charCodeAt(0))], {type: 'image/png'}));
@@ -421,7 +434,14 @@ async function cosLoad() {
 const cosOn = () => (pet.wear && typeof pet.wear === 'object') ? pet.wear : (pet.wear = {});
 const cosOk = c => !!c && petLevel(pet.xp) >= c.lv;
 const cosWorn = () => Object.fromEntries(Object.entries(cosOn()).filter(([, id]) => cosOk(COS.find(o => o.id === id))));
-const auraFilter = a => a && a.glow !== 'rainbow' ? `drop-shadow(0 0 9px ${a.glow}) drop-shadow(0 6px 6px rgba(0,0,0,.45))` : '';
+const auraFilter = (c, r, two) => `drop-shadow(0 0 ${r}px ${c})` + (two ? ` drop-shadow(0 0 ${r + 8}px ${two})` : '') + ' drop-shadow(0 6px 6px rgba(0,0,0,.45))';
+function auraOn(img, a) {  // puts the aura on a picture of NeoMe, animated when it changes colour or breathes
+  img.getAnimations().forEach(x => x.id === 'aura' && x.cancel());
+  const cols = a ? [].concat(a.glow) : []; img.style.filter = a ? auraFilter(cols[0], 9, a.two) : '';
+  if (!a || (cols.length < 2 && !a.pulse)) return;
+  const ks = (cols.length > 1 ? [...cols, cols[0]] : [cols[0], cols[0], cols[0]]).map((c, i) => ({filter: auraFilter(c, a.pulse && i % 2 ? 17 : 9, a.two)}));
+  Object.assign(img.animate(ks, {duration: a.ms || 3000, iterations: Infinity}), {id: 'aura'});
+}
 // an outfit: the base picture and the layers on top; face: which of the 25 pictures
 const cosAt = (i, [dx, dy], bb = [0, 0, 320, 330]) => Object.assign(i.style, {left: (bb[0] + dx) / 3.2 + '%', top: (bb[1] + dy) / 3.3 + '%', width: (bb[2] - bb[0]) / 3.2 + '%'});
 // the patch of a shell for this picture (loaded the first time it is needed)
@@ -458,7 +478,7 @@ async function cosBarImgs() {
   const wear = cosWorn(), a = COS.find(o => o.id === wear.aura), out = {};
   for (const n of TB_FACES) {
     const cv = document.createElement('canvas'); cv.width = 320; cv.height = 330; const g = cv.getContext('2d');
-    g.filter = auraFilter(a) || (a?.glow === 'rainbow' ? 'drop-shadow(0 0 9px #b46bff)' : 'none'); g.drawImage(await imgOf(__imgs[n + '.png']), 0, 0); g.filter = 'none';
+    g.filter = a ? auraFilter([].concat(a.glow)[0], 9, a.two) : 'none'; g.drawImage(await imgOf(__imgs[n + '.png']), 0, 0); g.filter = 'none';
     for (const slot of COS_ORDER) {
       const c = COS.find(o => o.id === wear[slot]); if (!c) continue;
       const src = cosUrl[c.id]; if (!src) continue;
@@ -476,7 +496,7 @@ function cosWear() {
   cosBarImgs().catch(e => console.error('NeoMe, barre des tâches :', e));
   const wear = cosWorn(), a = COS.find(o => o.id === wear.aura);
   cosLayers(petCos, petImg, wear, (NM[petSt.mode] || NM.idle)[0]);
-  petBox.classList.toggle('aura-rainbow', a?.glow === 'rainbow'); petImg.style.filter = auraFilter(a);
+  auraOn(petImg, a);
 }
 function cosToggle(c) {
   if (!cosOk(c)) return;
@@ -1352,7 +1372,7 @@ function nmGamesRender() {
 let nmSlot = 'tout', nmTry = null;
 function nmDoll(box, wear) {
   const a = COS.find(o => o.id === wear.aura), base = box.querySelector('img');
-  cosLayers(box, base, wear); box.classList.toggle('aura-rainbow', a?.glow === 'rainbow'); base.style.filter = auraFilter(a);
+  cosLayers(box, base, wear); auraOn(base, a);
 }
 function nmTryOn() {  // what the big NeoMe shows: what he wears, plus the item under the pointer 
   const w = cosWorn(); if (!nmTry) return w;
