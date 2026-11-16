@@ -37,7 +37,15 @@ With **Put in the taskbar**, it walks along the NeoDex taskbar. Click it for a c
 
 Each cuddle and each saved ball is worth 1 XP, tickles 2 XP and a meal 3 XP. Each level needs a little more XP than the last; its tab shows its level, the XP bar to the next one, the number of cuddles and meals, its ball record and its birth date.
 
-The cosmetics wardrobe is empty for now: a new series will come later.
+His 15 hats unlock as he levels up (from level 2 to level 17); the wardrobe in his tab shows them, padlocks included, and tries them on when hovered.
+
+## Games of the day
+
+Three games, each playable once a day; each round won gives a little XP (2 XP, plus 2 per star). Each game's card says how far you are and when it comes back.
+
+- **No Shadow**: NeoMe only lives in the shadows. Push the crates and lanterns, step on the plates that switch lamps off and wait for the spotlights to turn to reach his shell. 24 levels, a new one each day; the stars count your steps.
+- **Midnight Waves**: the wave from his headphones crosses the garden. Place mirrors to wake the sleeping creatures in order (one woken too early grumbles) before the wave runs out of breath; amps give it its breath back and prisms split it in two. The wave is only seen when you send it: the stars count your tries. 24 gardens.
+- **Hatching**: tilt the night garden to roll the shell to every firefly (they light the way), then to the nest. Slopes, mud, bouncing mushrooms and holes that send you back to the last firefly; the stars count your falls. 10 gardens.
 
 ## Data and sync
 

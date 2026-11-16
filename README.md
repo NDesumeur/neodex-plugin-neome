@@ -37,7 +37,15 @@ Avec **Mettre dans la barre des tâches**, il se promène sur la barre de NeoDex
 
 Chaque câlin et chaque balle rattrapée rapportent 1 XP, des chatouilles 2 XP et un repas 3 XP. Chaque niveau demande un peu plus d'XP que le précédent ; son onglet montre son niveau, la barre d'XP vers le suivant, le nombre de câlins et de repas, son record à la balle et sa date de naissance.
 
-La garde-robe de cosmétiques est vide pour l'instant : une nouvelle série arrivera plus tard.
+Ses 15 chapeaux se débloquent en montant de niveau (du niveau 2 au niveau 17) ; la garde-robe de son onglet les montre, cadenas compris, et les essaie au survol.
+
+## Les jeux du jour
+
+Trois jeux, chacun jouable une fois par jour ; chaque partie gagnée rapporte un peu d'XP (2 XP, plus 2 par étoile). La carte de chaque jeu dit où tu en es et dans combien de temps il revient.
+
+- **Pas d'ombre** : NeoMe ne vit que dans l'ombre. Pousse les caisses et les lanternes, enfonce les dalles qui éteignent les lampes et attends que les projecteurs tournent pour rejoindre sa coquille. 24 niveaux, un nouveau par jour ; les étoiles comptent tes pas.
+- **Ondes de minuit** : l'onde de son casque traverse le jardin. Pose des miroirs pour réveiller les créatures endormies dans l'ordre (une réveillée trop tôt grogne) avant que l'onde s'essouffle ; les amplis lui redonnent du souffle et les prismes la coupent en deux. On ne voit l'onde qu'en la lançant : les étoiles comptent tes essais. 24 jardins.
+- **Éclosion** : penche le jardin de nuit pour faire rouler la coquille jusqu'à chaque luciole (elles éclairent le chemin), puis jusqu'au nid. Pentes, boue, champignons qui font rebondir et trous qui ramènent à la dernière luciole ; les étoiles comptent tes chutes. 10 jardins.
 
 ## Données et synchronisation
 

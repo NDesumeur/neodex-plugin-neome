@@ -1,0 +1,196 @@
+{
+ "items": [
+  {
+   "id": "feuille",
+   "slot": "tete",
+   "name": "Petite pousse",
+   "lv": 2
+  },
+  {
+   "id": "etoile",
+   "slot": "tete",
+   "name": "Barrette étoile",
+   "lv": 3
+  },
+  {
+   "id": "noeud",
+   "slot": "tete",
+   "name": "Gros nœud rose",
+   "lv": 4
+  },
+  {
+   "id": "fete",
+   "slot": "tete",
+   "name": "Chapeau de fête",
+   "lv": 5
+  },
+  {
+   "id": "bonnet",
+   "slot": "tete",
+   "name": "Bonnet à pompon",
+   "lv": 6
+  },
+  {
+   "id": "fleurs",
+   "slot": "tete",
+   "name": "Couronne de fleurs",
+   "lv": 7
+  },
+  {
+   "id": "champignon",
+   "slot": "tete",
+   "name": "Chapeau champignon",
+   "lv": 8
+  },
+  {
+   "id": "chef",
+   "slot": "tete",
+   "name": "Toque de chef",
+   "lv": 9
+  },
+  {
+   "id": "noel",
+   "slot": "tete",
+   "name": "Bonnet de Noël",
+   "lv": 10
+  },
+  {
+   "id": "pirate",
+   "slot": "tete",
+   "name": "Tricorne de pirate",
+   "lv": 11
+  },
+  {
+   "id": "sorcier",
+   "slot": "tete",
+   "name": "Chapeau de sorcier",
+   "lv": 12
+  },
+  {
+   "id": "haut_de_forme",
+   "slot": "tete",
+   "name": "Haut-de-forme",
+   "lv": 13
+  },
+  {
+   "id": "viking",
+   "slot": "tete",
+   "name": "Casque viking",
+   "lv": 14
+  },
+  {
+   "id": "aureole",
+   "slot": "tete",
+   "name": "Auréole",
+   "lv": 15
+  },
+  {
+   "id": "couronne",
+   "slot": "tete",
+   "name": "Couronne d'or",
+   "lv": 17
+  }
+ ],
+ "offsets": {
+  "1": [
+   0,
+   0
+  ],
+  "2": [
+   0,
+   0
+  ],
+  "3": [
+   0,
+   0
+  ],
+  "4": [
+   0,
+   0
+  ],
+  "5": [
+   1,
+   0
+  ],
+  "6": [
+   0,
+   0
+  ],
+  "7": [
+   1,
+   0
+  ],
+  "8": [
+   2,
+   0
+  ],
+  "9": [
+   0,
+   0
+  ],
+  "10": [
+   0,
+   0
+  ],
+  "11": [
+   0,
+   0
+  ],
+  "12": [
+   3,
+   0
+  ],
+  "13": [
+   0,
+   0
+  ],
+  "14": [
+   1,
+   0
+  ],
+  "15": [
+   1,
+   0
+  ],
+  "16": [
+   1,
+   0
+  ],
+  "17": [
+   -8,
+   0
+  ],
+  "18": [
+   0,
+   0
+  ],
+  "19": [
+   0,
+   0
+  ],
+  "20": [
+   -3,
+   0
+  ],
+  "21": [
+   1,
+   0
+  ],
+  "22": [
+   0,
+   0
+  ],
+  "23": [
+   0,
+   0
+  ],
+  "24": [
+   2,
+   0
+  ],
+  "25": [
+   -8,
+   0
+  ]
+ }
+}
