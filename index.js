@@ -29,6 +29,7 @@ body.browsing #pet,body.browsing .petBall,body.browsing .petBallShadow,body.brow
 .petBubble{position:absolute;left:50%;bottom:calc(100% - 10px);transform:translateX(-50%) scale(.6);opacity:0;pointer-events:none;white-space:nowrap;background:var(--win);color:#fff;font:15px var(--text);padding:7px 12px;box-shadow:0 0 0 2px var(--line2),0 3px 0 2px #05010b;transition:opacity .15s,transform .15s steps(3)}
 .petBubble.on{opacity:1;transform:translateX(-50%) scale(1)} .petBubble::after{content:'';position:absolute;left:50%;top:100%;margin-left:-5px;border:5px solid transparent;border-top-color:var(--line2)}
 .petFood{position:absolute;width:20px;height:20px;transition:top .6s cubic-bezier(.5,0,1,1);background:radial-gradient(circle at 35% 35%,#f6c37a 0 30%,#d08a3a 31% 60%,transparent 61%);box-shadow:inset 0 0 0 2px #5a2e10;border-radius:50%}
+.petConf{position:absolute;width:4px;height:4px;pointer-events:none;image-rendering:pixelated;z-index:2}
 .petBall{position:fixed;left:0;top:0;width:22px;height:22px;z-index:41;cursor:var(--cg,grab);touch-action:none;border-radius:50%;box-shadow:0 0 0 2px #05010b,inset -4px -4px 0 rgba(0,0,0,.25);
   background:radial-gradient(circle at 32% 30%,#fff 0 14%,transparent 15%),conic-gradient(var(--magenta) 0 25%,var(--pink) 0 50%,var(--magenta) 0 75%,var(--pink) 0)} .petBall.held{cursor:var(--cgg,grabbing)}
 .petBallShadow{position:fixed;left:0;top:0;width:24px;height:7px;z-index:39;border-radius:50%;background:rgba(0,0,0,.55);pointer-events:none}
@@ -105,10 +106,14 @@ console.assert(petLevel(0) === 1 && petLevel(8) === 2 && petLevel(32) === 3, 'pe
 const petClamp = v => Math.max(0, Math.min(100, v));
 const petHour = () => petSt.hour ?? new Date().getHours();  // petSt.hour: a self-test can pretend it is day
 const petNight = () => { const h = petHour(); return h >= 23 || h < 6; };
-// time passing: about 10 h to get hungry, 13 h to get bored; energy comes back while it sleeps (or while you are away)
+// time passing: about 6 h to get peckish, 8 h to get a little bored; energy comes back while it sleeps (or while you are away)
+// 1.5.0, never a chore: time alone never makes it sad. Hunger and boredom stop at PET_FLOOR, above the sad mood (20)
+const PET_FLOOR = 35, PET_PARTY = 6 * 3600e3;
+const petDrift = (v, drop) => Math.max(Math.min(v, PET_FLOOR), petClamp(v - drop));
+console.assert(petDrift(100, 1000) === PET_FLOOR && petDrift(80, 10) === 70 && petDrift(12, 50) === 12, 'petDrift');
 function petAge(now = Date.now()) {
   const min = Math.max(0, (now - pet.last) / 60000), away = min > 20;
-  pet.food = petClamp(pet.food - min / 6); pet.joy = petClamp(pet.joy - min / 8);
+  pet.food = petDrift(pet.food, min / 6); pet.joy = petDrift(pet.joy, min / 8);
   pet.energy = petClamp(pet.energy + (petSt.sleeping || away ? min / 2 : -min / 10));
   pet.last = now;
 }
@@ -173,13 +178,31 @@ function petTick() {
   st.near = !!m && Math.hypot(m[0] - (r.left + r.width / 2), m[1] - (r.top + r.height / 2)) < 220;
   if (!st.act && !st.sleeping && !musicOn() && now > st.nextIdle) { petIdle(); st.nextIdle = now + 6000 + Math.random() * 8000; }
   if (!st.act && !st.sleeping && now - st.said > 90e3 && Math.random() < .02) {
-    if (pet.food < 25) { petSay("J'ai faim… (clic droit : nourrir)"); petAct('sad', 2500); }
-    else if (pet.joy < 25) { petSay('On joue ? (clic droit)'); petAct('bored', 2500); }
+    if (pet.food < 45) { petSay('Un petit creux… (clic droit : nourrir)'); petAct('think', 2200); }
+    else if (pet.joy < 45) { petSay('On joue ? (clic droit)'); petAct('curious', 2200); }
   }
   if (!st.act) petShowFace(petMood());
 }
 // every 30 s: time passes for its needs
 function petLive() { if (!pet) return; petAge(); petSave(); }
+
+// back after a long time: a little party, a small gift of XP, never a reproach
+function petParty() {
+  const h = Math.round(petSt.party / 3600e3), d = Math.round(h / 24), dur = h < 48 ? h + ' h' : d + ' jours';
+  petSt.party = 0; petActive();
+  petAct('joy', 2600); petConfetti();
+  petSay([`Te revoilà ! ${dur} sans toi, j'ai gardé la maison ♥`, `Fête ! Tu es revenu après ${dur} !`, `${dur}… Tu m'as manqué ! J'ai tout rangé.`][Math.random() * 3 | 0], 4200);
+  setTimeout(() => { petAct('love', 2000); petXp(3); }, 2700);
+}
+function petConfetti() {  // a burst of pixel confetti above its head
+  const cols = ['#ff6a8a', '#ffd84a', '#7ad8ff', '#a8ff7a', '#c88aff'];
+  for (let i = 0; i < 22; i++) {
+    const c = el('div', 'petConf'); c.style.background = cols[i % 5]; c.style.left = petImg.offsetWidth / 2 + 'px'; c.style.top = '0px'; petBox.append(c);
+    const a = -Math.PI / 2 + (Math.random() - .5) * 2.2, v = 60 + Math.random() * 70;
+    c.animate([{ transform: 'translate(0,0)', opacity: 1 }, { transform: `translate(${Math.cos(a) * v}px,${Math.sin(a) * v + 70}px) rotate(${Math.random() * 360 | 0}deg)`, opacity: 0 }],
+      { duration: 1400 + Math.random() * 600, easing: 'cubic-bezier(.2,.7,.4,1)' }).onfinish = () => c.remove();
+  }
+}
 
 /* ---------- what you do to it ---------- */
 function petClick() {
@@ -333,13 +356,17 @@ function petShow() {
 async function petStart() {
   pet = {...petNew(), ...(await __storeGet('pet').catch(() => null) || {})};
   if (pet.name === 'Osu') pet.name = 'NeoMe';  // the first pet's name
+  const gone = Date.now() - (pet.last || Date.now()), party = gone > PET_PARTY && Date.now() - (pet.born || 0) > PET_PARTY;
   petAge();
+  pet.food = Math.max(pet.food, PET_FLOOR); pet.joy = Math.max(pet.joy, PET_FLOOR);  // older saves could be lower
+  if (party) { pet.joy = Math.max(pet.joy, 75); pet.food = Math.max(pet.food, 60); petSt.party = gone; }  // it nibbled while waiting, and it is glad
   for (const [n] of Object.values(NM)) { new Image().src = __imgs[n + '.png']; }  // all the expressions ready: no blink when it changes face
   petBox = el('div'); petBox.id = 'pet';
   petImg = el('img'); petImg.alt = ''; petImg.draggable = false;
   petCos = el('div', 'petCos');
   petBox.append(el('div', 'petBubble'), petImg, petCos); document.body.append(petBox); cosWear();
   petShowFace('idle'); petShow();
+  if (petSt.party) setTimeout(petParty, 1200);
   // click / double click / drag / right click
   let down = null, clickT = 0;
   petImg.onpointerdown = e => {
@@ -1412,7 +1439,7 @@ function nmView() {
   const wrap = view.querySelector('.appWrap'); wrap.classList.add('nmApp'); wrap.append(box);
   nmRender(); nmGamesRender(); setInterval(nmGamesRender, 60000);
 }
-view.__nm = {view: () => view.querySelector('#nmMain'), pet: () => pet, ombre: null, play: id => NM_GAMES.find(g => g.id === id).play(), levels: () => OM_LEVELS, om: {omParse, omStep, omSolve, omWon}, odLevels: () => OD_LEVELS, od: {odParse, odRun, odSolve}, ecLevels: () => EC_LEVELS, ec: {ecParse, ecNew, ecStep, ecBot}, rand: {omRandom, odRandom, ecRandom}};  // pour l'auto-test
+view.__nm = {view: () => view.querySelector('#nmMain'), pet: () => pet, party: ms => { petSt.party = ms; petParty(); }, age: now => petAge(now), ombre: null, play: id => NM_GAMES.find(g => g.id === id).play(), levels: () => OM_LEVELS, om: {omParse, omStep, omSolve, omWon}, odLevels: () => OD_LEVELS, od: {odParse, odRun, odSolve}, ecLevels: () => EC_LEVELS, ec: {ecParse, ecNew, ecStep, ecBot}, rand: {omRandom, odRandom, ecRandom}};  // pour l'auto-test
 if (window.neo && !W2) cosLoad().catch(e => console.error('NeoMe, garde-robe :', e)).then(petStart).then(nmView).catch(e => console.error('pet:', e));
   // ---- fin ----
   view.querySelector('#nmToggle').onclick = () => petToggle();

@@ -56,3 +56,7 @@ Its name, level, gauges and records are stored by NeoDex, backed up and synced b
 In NeoDex: **NeoStore → Discover → NeoMe → Install**.
 
 Building a plugin: see the [NeoDex SDK](https://github.com/NDesumeur/neodex-sdk).
+
+## Never a chore
+
+NeoMe never wastes away: its hunger and boredom do not go below a floor, even after days without NeoDex, so time alone never makes it sad. It asks gently (« A little peckish… »). When you come back after 6 hours or more, it throws a party: confetti, a word about how long you were gone, and a little experience as a gift.

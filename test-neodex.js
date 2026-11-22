@@ -74,5 +74,11 @@ module.exports = async ({ js: pj0, sleep, shot = async () => {} }) => {
   for (const [k, mm] of await pj(`${N}.od.odSolve(${N}.ondes.lv).sol`)) await pj(`${N}.ondes.place(${k}, ${JSON.stringify(mm)})`);
   await pj(`${N}.ondes.play()`); for (let i = 0; i < 40 && await pj(`${N}.ondes.playing()`); i++) await sleep(250);
   if (!await pj(`${N}.ondes.won()`)) throw new Error('jardin du jour pas gagné avec la solution');
+  // jamais une corvée : 5 jours sans NeoDex ne le rendent pas triste (faim et ennui restent à 35 au moins), et le retour est une fête
+  step = 'corvée'; const ch = await pj(`(() => { const m = ${N}, p = m.pet(), s = {food: p.food, joy: p.joy, last: p.last}; p.food = p.joy = 90; p.last = Date.now() - 5 * 864e5; m.age(Date.now());
+    const r = {food: Math.round(p.food), joy: Math.round(p.joy)}; Object.assign(p, s); m.party(30 * 3600e3);
+    return {...r, say: document.querySelector('#pet .petBubble').textContent, conf: document.querySelectorAll('#pet .petConf').length}; })()`);
+  if (ch.food < 35 || ch.joy < 35 || !/30 h/.test(ch.say) || ch.conf < 10) throw new Error('jamais une corvée : ' + JSON.stringify(ch));
+  await sleep(300); await shot('fete');
   return `NeoMe de ${r.doll} px, ${r.items} tenues dont ${r.locked} à débloquer par le niveau, Pas d'ombre gagné en ${sol.length} pas (${c.w}×${c.h} px), Ondes gagné avec ${osol.length} miroirs au 2e essai, Éclosion finie au pilote en ${ew.t.toFixed(1)} s, niveaux du jour bons et jardin du jour gagné`;
 };

@@ -56,3 +56,7 @@ Son nom, son niveau, ses jauges et ses records sont enregistrés par NeoDex, sau
 Dans NeoDex : **NeoStore → À découvrir → NeoMe → Installer**.
 
 Développer un plugin : voir le [SDK NeoDex](https://github.com/NDesumeur/neodex-sdk).
+
+## Jamais une corvée
+
+NeoMe ne dépérit jamais : sa faim et son ennui ne descendent pas sous un seuil, même après des jours sans NeoDex, donc il n'est jamais triste à cause du temps. Il réclame doucement (« Un petit creux… »). Quand tu reviens après 6 heures ou plus, il fait la fête : confettis, un mot qui dit combien de temps tu es parti, et un peu d'expérience en cadeau.
